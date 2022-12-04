@@ -2,17 +2,17 @@ package com.Sun.companyEmp.layers.Domain;
 
 import java.util.Objects;
 
-public class employee {
+public class Employee {
     private String name;
     private int id;
     private String address;
     private boolean is_fullTime;
     private int yearOfExp;
 
-    public employee(){
+    public Employee(){
 
     }
-    public employee(String name, int id, String address, boolean is_fullTime, int yearOfExp) {
+    public Employee(String name, int id, String address, boolean is_fullTime, int yearOfExp) {
         this.name = name;
         this.id = id;
         this.address = address;
@@ -64,7 +64,7 @@ public class employee {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        employee employee = (employee) o;
+        Employee employee = (Employee) o;
         return id == employee.id && is_fullTime == employee.is_fullTime && yearOfExp == employee.yearOfExp && name.equals(employee.name) && address.equals(employee.address);
     }
 
