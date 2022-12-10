@@ -1,5 +1,6 @@
 package com.Sun.companyEmp.layers.Repositry;
 
+
 import com.Sun.companyEmp.layers.Domain.Employee;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -44,4 +45,5 @@ public class EmployeeRepo {
      Employee emp= jdbcTemplate.queryForObject("select * from employees where id=?",rowMapper,id);
     return emp;
     }
+
 }

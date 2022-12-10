@@ -2,24 +2,21 @@ package com.Sun.companyEmp.layers.Domain;
 
 import java.util.Objects;
 
-public class Employee {
+public class employee {
     private String name;
     private int id;
     private String address;
-
-    private boolean is_fulltime;
-
+    private boolean is_fullTime;
     private int yearOfExp;
 
-    public Employee(){
+    public employee(){
 
     }
-
-    public Employee(int id,String name, String address, boolean is_fulltime, int yearOfExp) {
+    public employee(String name, int id, String address, boolean is_fullTime, int yearOfExp) {
         this.name = name;
         this.id = id;
         this.address = address;
-        this.is_fulltime = is_fulltime;
+        this.is_fullTime = is_fullTime;
         this.yearOfExp = yearOfExp;
     }
 
@@ -48,12 +45,11 @@ public class Employee {
     }
 
     public boolean isIs_fullTime() {
-
-        return is_fulltime;
+        return is_fullTime;
     }
 
     public void setIs_fullTime(boolean is_fullTime) {
-        this.is_fulltime = is_fulltime;
+        this.is_fullTime = is_fullTime;
     }
 
     public int getYearOfExp() {
@@ -68,27 +64,12 @@ public class Employee {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-
-        return id == employee.id && is_fulltime == employee.is_fulltime && yearOfExp == employee.yearOfExp && name.equals(employee.name) && address.equals(employee.address);
-
+        employee employee = (employee) o;
+        return id == employee.id && is_fullTime == employee.is_fullTime && yearOfExp == employee.yearOfExp && name.equals(employee.name) && address.equals(employee.address);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(name, id, address, is_fulltime, yearOfExp);
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", address='" + address + '\'' +
-                ", is_fullTime=" + is_fulltime +
-                ", yearOfExp=" + yearOfExp +
-                '}';
-
+        return Objects.hash(name, id, address, is_fullTime, yearOfExp);
     }
 }
