@@ -19,9 +19,12 @@ public class AppReady {
     @EventListener(ApplicationReadyEvent.class)
     public void doSomthing()
     {
-        Employee employee= new Employee(3,"Bseleh","Bethlehem",true,4);
-        employeeRepo.addEmployee(5);
-        System.out.println(employee);
+        Employee employee= new Employee(3,"Ahmed","Bethlehem",true,4);
+
+        employeeRepo.addEmployee(employee);
+        System.out.println(employeeRepo.getEmployee(1));
+        System.out.println(employeeRepo.getEmployee(3));
+        System.out.println(employeeRepo.getEmployee(5));
 
     }
 }

@@ -26,7 +26,7 @@ public class EmployeeRepo {
     public int addEmployee(Employee emp) {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("ID", emp.getId());
-        parameters.put("FIRST_NAME", emp.getName());
+        parameters.put("name", emp.getName());
         parameters.put("ADDRESS", emp.getAddress());
         parameters.put("is_fulltime",emp.isIs_fullTime());
         parameters.put("yearOfExp",emp.getYearOfExp());
