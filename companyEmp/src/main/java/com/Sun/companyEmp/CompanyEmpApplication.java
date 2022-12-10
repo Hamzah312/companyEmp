@@ -1,5 +1,6 @@
 package com.Sun.companyEmp;
 
+import com.Sun.companyEmp.layers.Repositry.EmployeeRepo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CompanyEmpApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(CompanyEmpApplication.class, args);
+
+
 	}
 
 }
