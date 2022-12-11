@@ -1,5 +1,6 @@
 package com.Sun.companyEmp.layers.Repositry;
 
+
 import com.Sun.companyEmp.layers.Domain.Employee;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -14,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ import java.util.Map;
 public class EmployeeRepo {
     private JdbcTemplate jdbcTemplate;
     SimpleJdbcInsert simpleJdbcInsert ;
+
     RowMapper<Employee> rowMapper;
     public EmployeeRepo(JdbcTemplate jdbcTemplate , RowMapper<Employee> rowMapper)
     {
@@ -33,12 +36,14 @@ public class EmployeeRepo {
     private Long createEmployeeLong(Employee emp) {
 
 
+
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("ID", emp.getId());
         parameters.put("name", emp.getName());
         parameters.put("ADDRESS", emp.getAddress());
         parameters.put("is_fulltime",emp.isIs_fullTime());
         parameters.put("yearOfExp",emp.getYearOfExp());
+
 
         return (Long) simpleJdbcInsert.executeAndReturnKey(parameters);
 
@@ -82,4 +87,5 @@ public class EmployeeRepo {
     {
         jdbcTemplate.update("DELETE FROM public.employees WHERE serial_number =?",serial_number);
     }
+
 }
