@@ -1,4 +1,4 @@
-package com.Sun.companyEmp;
+package com.Sun.companyEmp.layers.Applicationsready;
 
 import com.Sun.companyEmp.layers.Domain.Employee;
 import com.Sun.companyEmp.layers.Repositry.EmployeeRepo;
@@ -6,25 +6,24 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-@Component
-public class AppReady {
+//@Component
+public class AppReadyRepoEx {
 
     EmployeeRepo employeeRepo;
 
-    public AppReady(EmployeeRepo employeeRepo)
+    public AppReadyRepoEx(EmployeeRepo employeeRepo)
     {
     this.employeeRepo =employeeRepo;
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    public void doSomthing()
+    public void doSomething()
     {
-        Employee employee= new Employee(3,"Ahmed","Bethlehem",true,4);
+        Employee employee= new Employee(132,"Hamzeh","Bethlehem",true,4);
 
-        employeeRepo.addEmployee(employee);
-        System.out.println(employeeRepo.getEmployee(1));
-        System.out.println(employeeRepo.getEmployee(3));
-        System.out.println(employeeRepo.getEmployee(5));
+
+
+        System.out.println(employeeRepo.updateEmployee(1L,employee));
 
     }
 }
