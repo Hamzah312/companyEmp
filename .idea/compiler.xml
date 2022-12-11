@@ -2,8 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="companyEmp.companyEmp.main~1" target="11" />
-      <module name="companyEmp.companyEmp.test~1" target="11" />
+
+      <module name="companyEmp.companyEmp.main" target="11" />
+      <module name="companyEmp.companyEmp.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
