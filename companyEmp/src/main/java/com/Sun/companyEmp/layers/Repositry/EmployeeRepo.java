@@ -2,19 +2,17 @@ package com.Sun.companyEmp.layers.Repositry;
 
 import com.Sun.companyEmp.layers.Domain.Employee;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -44,6 +42,7 @@ public class EmployeeRepo {
 
     }
     public Employee createEmployee(Employee employee){
+
         return getEmployee(createEmployeeLong(employee));
     }
     public Employee getEmployee(long serial_number)
@@ -56,6 +55,11 @@ public class EmployeeRepo {
      {
          return null;
      }
+    }
+
+    public List<Employee> getEmployees()
+    {
+        return jdbcTemplate.query("Select * from employees",rowMapper);
     }
     public Employee updateEmployee(long serial_number,Employee emp)
     {
