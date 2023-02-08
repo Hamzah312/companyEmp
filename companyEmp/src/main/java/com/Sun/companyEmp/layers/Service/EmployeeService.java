@@ -9,6 +9,11 @@ import com.Sun.companyEmp.layers.Repositry.EmployeeRepo;
 import com.Sun.companyEmp.layers.dto.Employeedto;
 import org.springframework.stereotype.Service;
 
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+
 @Service
 public class EmployeeService {
 
@@ -35,6 +40,12 @@ public class EmployeeService {
         return employeeConverter.fromDomain(employeeRepo.getEmployee(serial_number));
 
     }
+
+    public List<Employeedto> getEmployees()
+    {
+        return employeeRepo.getEmployees().stream().map(e -> employeeConverter.fromDomain(e)).collect(Collectors.toList());
+    }
+
     public Employeedto updateEmployee(Long serial_number,Employeedto emp)
     {
         checkExisting(serial_number);
@@ -54,11 +65,12 @@ public class EmployeeService {
         if(employee != null)
             System.out.println("Done");
         else
-            throw new DataNotFoundException("Employee with serial_number: "+ serial_number +" is not found");
+
+            throw new DataNotFoundException("can not found the particular serial_number number");
     }
 
     private static void validate(Employeedto emp) {
-        if(emp.getYearOfExp()<0)
+        if(emp.getId()<1 || emp.getYearOfExp()<0)
             throw new SemanticException("Years of exp should be zero or more");
     }
 
