@@ -1,5 +1,6 @@
 package com.Sun.companyEmp.layers.Service;
 
+
 import com.Sun.companyEmp.layers.Converter.EmployeeConverter;
 import com.Sun.companyEmp.layers.Domain.Employee;
 import com.Sun.companyEmp.layers.Exceptions.DataNotFoundException;
@@ -8,8 +9,10 @@ import com.Sun.companyEmp.layers.Repositry.EmployeeRepo;
 import com.Sun.companyEmp.layers.dto.Employeedto;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Service
 public class EmployeeService {
@@ -37,10 +40,12 @@ public class EmployeeService {
         return employeeConverter.fromDomain(employeeRepo.getEmployee(serial_number));
 
     }
+
     public List<Employeedto> getEmployees()
     {
         return employeeRepo.getEmployees().stream().map(e -> employeeConverter.fromDomain(e)).collect(Collectors.toList());
     }
+
     public Employeedto updateEmployee(Long serial_number,Employeedto emp)
     {
         checkExisting(serial_number);
@@ -60,6 +65,7 @@ public class EmployeeService {
         if(employee != null)
             System.out.println("Done");
         else
+
             throw new DataNotFoundException("can not found the particular serial_number number");
     }
 
@@ -67,5 +73,6 @@ public class EmployeeService {
         if(emp.getId()<1 || emp.getYearOfExp()<0)
             throw new SemanticException("Years of exp should be zero or more");
     }
+
 
 }

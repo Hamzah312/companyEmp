@@ -1,5 +1,6 @@
 package com.Sun.companyEmp.layers.Controller;
 
+
 import com.Sun.companyEmp.layers.Service.EmployeeService;
 import com.Sun.companyEmp.layers.dto.Employeedto;
 import org.springframework.http.HttpStatus;
@@ -51,4 +52,5 @@ public class EmployeeController {
     {
         return employeeService.updateEmployee(serial_number,employeedto);
     }
+
 }
