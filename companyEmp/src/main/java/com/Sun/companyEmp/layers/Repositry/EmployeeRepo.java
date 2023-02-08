@@ -1,24 +1,34 @@
 package com.Sun.companyEmp.layers.Repositry;
 
+
 import com.Sun.companyEmp.layers.Domain.Employee;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 import java.util.HashMap;
 import java.util.List;
+
 import java.util.Map;
 
 @Repository
 public class EmployeeRepo {
     private JdbcTemplate jdbcTemplate;
     SimpleJdbcInsert simpleJdbcInsert ;
+
     RowMapper<Employee> rowMapper;
     public EmployeeRepo(JdbcTemplate jdbcTemplate , RowMapper<Employee> rowMapper)
     {
@@ -37,6 +47,7 @@ public class EmployeeRepo {
         parameters.put("ADDRESS", emp.getAddress());
         parameters.put("is_fulltime",emp.isIs_fullTime());
         parameters.put("yearOfExp",emp.getYearOfExp());
+
 
         return (Long) simpleJdbcInsert.executeAndReturnKey(parameters);
 
@@ -61,6 +72,7 @@ public class EmployeeRepo {
     {
         return jdbcTemplate.query("Select * from employees",rowMapper);
     }
+
     public Employee updateEmployee(long serial_number,Employee emp)
     {
         jdbcTemplate.update(new PreparedStatementCreator(){
@@ -86,4 +98,5 @@ public class EmployeeRepo {
     {
         jdbcTemplate.update("DELETE FROM public.employees WHERE serial_number =?",serial_number);
     }
+
 }
