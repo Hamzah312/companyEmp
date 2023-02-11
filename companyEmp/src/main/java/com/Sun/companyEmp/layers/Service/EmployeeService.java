@@ -27,7 +27,7 @@ public class EmployeeService {
         validate(emp);
 
         Employee cEmp= employeeRepo.createEmployee(employeeConverter.fromDto(emp));
-        System.out.println(cEmp);
+
         return employeeConverter.fromDomain(cEmp);
     }
 
