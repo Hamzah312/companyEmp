@@ -4,7 +4,7 @@ import com.Sun.companyEmp.layers.Converter.EmployeeConverter;
 import com.Sun.companyEmp.layers.Domain.Employee;
 import com.Sun.companyEmp.layers.Exceptions.DataNotFoundException;
 import com.Sun.companyEmp.layers.Exceptions.SemanticException;
-import com.Sun.companyEmp.layers.Repositry.EmployeeRepo;
+import com.Sun.companyEmp.layers.Repositry.EmployeeRepository;
 import com.Sun.companyEmp.layers.dto.Employeedto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,7 +24,7 @@ class EmployeeServiceTest {
     @InjectMocks
     EmployeeService employeeService;
     @Mock
-    EmployeeRepo employeeRepo;
+    EmployeeRepository employeeRepo;
     @Mock
     EmployeeConverter employeeConverter;
 
@@ -38,7 +39,7 @@ class EmployeeServiceTest {
         when(employeeConverter.fromDomain(any())).thenCallRealMethod();
         when(employeeConverter.fromDto(any())).thenCallRealMethod();
         Employee employee = new Employee(555, "Hamzeh", "Bethlehem", true, 4);
-        when(employeeRepo.createEmployee(employee)).thenReturn(new Employee(555, "Hamzeh", "Bethlehem", true, 4));
+        when(employeeRepo.save(employee)).thenReturn(new Employee(555, "Hamzeh", "Bethlehem", true, 4));
 
         Employeedto employeedto = employeeService.createEmployee(new Employeedto(555, "Hamzeh", "Bethlehem", true, 4));
 
@@ -53,12 +54,12 @@ class EmployeeServiceTest {
         when(employeeConverter.fromDomain(any())).thenCallRealMethod();
         when(employeeConverter.fromDto(any())).thenCallRealMethod();
         Employee employee = new Employee(132, "Hamzeh", "Bethlehem", true, 4);
-        when(employeeRepo.createEmployee(employee)).thenReturn(new Employee(132, "Hamzeh", "Bethlehem", true, 4));
+        when(employeeRepo.save(employee)).thenReturn(new Employee(132, "Hamzeh", "Bethlehem", true, 4));
 
         SemanticException semanticException = assertThrows(SemanticException.class, () -> employeeService.createEmployee(new Employeedto(0, "Hamzeh", "Bethlehem", true, 4)));
 
         assertEquals("Years of exp should be zero or more or/and id should be positive", semanticException.getMessage());
-        verify(employeeRepo, never()).createEmployee(any());
+        verify(employeeRepo, never()).save(any());
         verify(employeeConverter, never()).fromDomain(any());
         verify(employeeConverter, never()).fromDto(any());
     }
@@ -68,12 +69,12 @@ class EmployeeServiceTest {
         when(employeeConverter.fromDomain(any())).thenCallRealMethod();
         when(employeeConverter.fromDto(any())).thenCallRealMethod();
         Employee employee = new Employee(132, "Hamzeh", "Bethlehem", true, 4);
-        when(employeeRepo.createEmployee(employee)).thenReturn(new Employee(132, "Hamzeh", "Bethlehem", true, 4));
+        when(employeeRepo.save(employee)).thenReturn(new Employee(132, "Hamzeh", "Bethlehem", true, 4));
 
         SemanticException semanticException = assertThrows(SemanticException.class, () -> employeeService.createEmployee(new Employeedto(132, "Hamzeh", "Bethlehem", true, -4)));
 
         assertEquals("Years of exp should be zero or more or/and id should be positive", semanticException.getMessage());
-        verify(employeeRepo, never()).createEmployee(any());
+        verify(employeeRepo, never()).save(any());
         verify(employeeConverter, never()).fromDomain(any());
         verify(employeeConverter, never()).fromDto(any());
     }
@@ -82,7 +83,7 @@ class EmployeeServiceTest {
     void getEmployee_employeeExist_shouldReturnEmployee() {
 
         when(employeeConverter.fromDomain(any())).thenCallRealMethod();
-        when(employeeRepo.getEmployee(2L)).thenReturn(new Employee(132, "Hamzeh", "Bethlehem", true, 4));
+        when(employeeRepo.findById(2L)).thenReturn(Optional.of(new Employee(132, "Hamzeh", "Bethlehem", true, 4)));
 
         Employeedto employeedto = employeeService.getEmployee(2L);
 
@@ -113,7 +114,7 @@ class EmployeeServiceTest {
         employees.add(employee3);
         when(employeeConverter.fromDomain(any())).thenCallRealMethod();
         when(employeeConverter.fromDto(any())).thenCallRealMethod();
-        when(employeeRepo.getEmployees()).thenReturn(employees);
+        when(employeeRepo.findAll()).thenReturn(employees);
 
         ArrayList<Employeedto> employees_dto = (ArrayList<Employeedto>) employeeService.getEmployees();
         assertEquals("Hamzeh", employees_dto.get(0).getName());
@@ -123,13 +124,14 @@ class EmployeeServiceTest {
 
     @Test
     void updateEmployee_EmployeeExist_shouldReturnEmployee() {
-        when(employeeRepo.getEmployee(2L)).thenReturn(new Employee(132, "Hamzeh", "Bethlehem", true, 4));
+        when(employeeRepo.findById(2L)).thenReturn(Optional.of(new Employee(132, "Hamzeh", "Bethlehem", true, 4)));
         when(employeeConverter.fromDomain(any())).thenCallRealMethod();
         when(employeeConverter.fromDto(any())).thenCallRealMethod();
         Employee employee = new Employee(132, "Hamzeh", "Bethlehem", true, 4);
-        when(employeeRepo.updateEmployee(2L, employee)).thenReturn(new Employee(132, "Hamzeh", "Bethlehem", true, 4));
-
+        when(employeeRepo.findById(2l)).thenReturn(Optional.of(new Employee(132, "Hamzeh", "Bethlehem", true, 4)));
+        when(employeeRepo.save(employee)).thenReturn(employee);
         Employeedto employeedto = employeeService.updateEmployee(2l, new Employeedto(132, "Hamzeh", "Bethlehem", true, 4));
+
         assertNotNull(employeedto);
         assertEquals(132, employeedto.getId());
         assertEquals("Bethlehem", employeedto.getAddress());
@@ -137,57 +139,58 @@ class EmployeeServiceTest {
 
     @Test
     void updateEmployee_NotEmployeeExist_shouldThrowDNFE() {
-
-
         DataNotFoundException dataNotFoundException = assertThrows(DataNotFoundException.class, () -> employeeService.updateEmployee(2l, new Employeedto(132, "Hamzeh", "Bethlehem", true, 4)));
-
         assertEquals("can not found the particular serial_number number", dataNotFoundException.getMessage());
-        verify(employeeRepo, never()).updateEmployee(anyLong(), any());
-        verify(employeeRepo).getEmployee(anyLong());
+
+        verify(employeeRepo).findById(anyLong());
         verify(employeeConverter, never()).fromDomain(any());
         verify(employeeConverter, never()).fromDto(any());
     }
 
     @Test
     void updateEmployee_EmployeeExist_shouldThrowSE() {
-        when(employeeRepo.getEmployee(2L)).thenReturn(new Employee(132, "Hamzeh", "Bethlehem", true, 4));
+        when(employeeRepo.findById(2L)).thenReturn(Optional.of(new Employee(132, "Hamzeh", "Bethlehem", true, 4)));
         when(employeeConverter.fromDomain(any())).thenCallRealMethod();
         when(employeeConverter.fromDto(any())).thenCallRealMethod();
         Employee employee = new Employee(132, "Hamzeh", "Bethlehem", true, 4);
-        when(employeeRepo.updateEmployee(2L, employee)).thenReturn(new Employee(132, "Hamzeh", "Bethlehem", true, 4));
-
+        when(  employeeRepo.findById(2l).map(empp ->{
+            employee.setSerial_number(empp.getSerial_number());
+            return employeeRepo.save(employee);
+        })).thenReturn(Optional.of(new Employee(132, "Hamzeh", "Bethlehem", true, 4)));
         SemanticException semanticException = assertThrows(SemanticException.class, () -> employeeService.updateEmployee(2l, new Employeedto(0, "Hamzeh", "Bethlehem", true, 4)));
 
         assertEquals("Years of exp should be zero or more or/and id should be positive", semanticException.getMessage());
-        verify(employeeRepo, never()).updateEmployee(anyLong(), any());
-        verify(employeeRepo).getEmployee(anyLong());
+
+
         verify(employeeConverter, never()).fromDomain(any());
         verify(employeeConverter, never()).fromDto(any());
     }
 
     @Test
     void updateEmployee_EmployeeExist_shouldThrowSE2() {
-        when(employeeRepo.getEmployee(2L)).thenReturn(new Employee(132, "Hamzeh", "Bethlehem", true, 4));
+        when(employeeRepo.findById(2L)).thenReturn(Optional.of(new Employee(132, "Hamzeh", "Bethlehem", true, 4)));
         when(employeeConverter.fromDomain(any())).thenCallRealMethod();
         when(employeeConverter.fromDto(any())).thenCallRealMethod();
         Employee employee = new Employee(132, "Hamzeh", "Bethlehem", true, 4);
-        when(employeeRepo.updateEmployee(2L, employee)).thenReturn(new Employee(132, "Hamzeh", "Bethlehem", true, 4));
-
+        when(  employeeRepo.findById(2l).map(empp ->{
+            employee.setSerial_number(empp.getSerial_number());
+            return employeeRepo.save(employee);
+        })).thenReturn(Optional.of(new Employee(132, "Hamzeh", "Bethlehem", true, 4)));
         SemanticException semanticException = assertThrows(SemanticException.class, () -> employeeService.updateEmployee(2l, new Employeedto(524, "Hamzeh", "Bethlehem", true, -2)));
 
         assertEquals("Years of exp should be zero or more or/and id should be positive", semanticException.getMessage());
-        verify(employeeRepo, never()).updateEmployee(anyLong(), any());
-        verify(employeeRepo).getEmployee(anyLong());
+
+
         verify(employeeConverter, never()).fromDomain(any());
         verify(employeeConverter, never()).fromDto(any());
     }
 
     @Test
     void deleteEmployee_NotExist_ThrowDNFE() {
-        DataNotFoundException dataNotFoundException = assertThrows(DataNotFoundException.class, () -> employeeService.deleteEmployee(2l));
 
+        DataNotFoundException dataNotFoundException = assertThrows(DataNotFoundException.class, () -> employeeService.deleteEmployee(555l));
         assertEquals("can not found the particular serial_number number", dataNotFoundException.getMessage());
-        verify(employeeRepo, never()).deleteEmployee(anyLong());
+        verify(employeeRepo, never()).deleteById(anyLong());
 
     }
 }

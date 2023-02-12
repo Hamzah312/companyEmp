@@ -36,7 +36,7 @@ public class EmployeeRepo {
         parameters.put("name", emp.getName());
         parameters.put("ADDRESS", emp.getAddress());
         parameters.put("is_fulltime",emp.isIs_fullTime());
-        parameters.put("yearOfExp",emp.getYearOfExp());
+        parameters.put("yearOfExp",emp.getYear_of_exp());
 
         return (Long) simpleJdbcInsert.executeAndReturnKey(parameters);
 
@@ -73,7 +73,7 @@ public class EmployeeRepo {
                 preparedStatement.setString(2,emp.getName());
                 preparedStatement.setString(3,emp.getAddress());
                 preparedStatement.setBoolean(4,emp.isIs_fullTime());
-                preparedStatement.setInt(5,emp.getYearOfExp());
+                preparedStatement.setInt(5,emp.getYear_of_exp());
                 preparedStatement.setLong(6, serial_number);
 
                 return preparedStatement;

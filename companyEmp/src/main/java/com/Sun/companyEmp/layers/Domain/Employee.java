@@ -1,15 +1,21 @@
 package com.Sun.companyEmp.layers.Domain;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 
-
+@Entity
+@Table(name = "employees")
 public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO,generator = "employees_serial_number_seq")
+    private long serial_number;
     private String name;
     private int id;
     private String address;
     private boolean is_fulltime;
-    private int yearOfExp;
+    private int year_of_exp;
 
     public Employee(){
 
@@ -19,7 +25,15 @@ public class Employee {
         this.id = id;
         this.address = address;
         this.is_fulltime = is_fulltime;
-        this.yearOfExp = yearOfExp;
+        this.year_of_exp = yearOfExp;
+    }
+
+    public long getSerial_number() {
+        return serial_number;
+    }
+
+    public void setSerial_number(long serial_number) {
+        this.serial_number = serial_number;
     }
 
     public String getName() {
@@ -54,12 +68,12 @@ public class Employee {
         this.is_fulltime = is_fulltime;
     }
 
-    public int getYearOfExp() {
-        return yearOfExp;
+    public int getYear_of_exp() {
+        return year_of_exp;
     }
 
-    public void setYearOfExp(int yearOfExp) {
-        this.yearOfExp = yearOfExp;
+    public void setYear_of_exp(int year_of_exp) {
+        this.year_of_exp = year_of_exp;
     }
 
     @Override
@@ -67,12 +81,12 @@ public class Employee {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return id == employee.id && is_fulltime == employee.is_fulltime && yearOfExp == employee.yearOfExp && name.equals(employee.name) && address.equals(employee.address);
+        return id == employee.id && is_fulltime == employee.is_fulltime && year_of_exp == employee.year_of_exp && name.equals(employee.name) && address.equals(employee.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, id, address, is_fulltime, yearOfExp);
+        return Objects.hash(name, id, address, is_fulltime, year_of_exp);
     }
 
     @Override
@@ -82,7 +96,7 @@ public class Employee {
                 ", id=" + id +
                 ", address='" + address + '\'' +
                 ", is_fullTime=" + is_fulltime +
-                ", yearOfExp=" + yearOfExp +
+                ", yearOfExp=" + year_of_exp +
                 '}';
     }
 }

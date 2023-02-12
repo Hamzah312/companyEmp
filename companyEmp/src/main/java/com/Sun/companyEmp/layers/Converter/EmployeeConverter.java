@@ -12,7 +12,7 @@ public class EmployeeConverter {
 
     public Employeedto fromDomain(Employee emp)
     {
-        return new Employeedto(emp.getId(),emp.getName(),emp.getAddress(),emp.isIs_fullTime(),emp.getYearOfExp());
+        return new Employeedto(emp.getId(),emp.getName(),emp.getAddress(),emp.isIs_fullTime(),emp.getYear_of_exp());
     }
 
 }
