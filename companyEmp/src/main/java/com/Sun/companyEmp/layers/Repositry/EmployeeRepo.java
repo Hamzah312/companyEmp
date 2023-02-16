@@ -1,10 +1,10 @@
 package com.Sun.companyEmp.layers.Repositry;
 
 
-
 import com.Sun.companyEmp.layers.Domain.Employee;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -41,7 +41,6 @@ public class EmployeeRepo {
     private Long createEmployeeLong(Employee emp) {
 
 
-
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("ID", emp.getId());
         parameters.put("name", emp.getName());
@@ -68,7 +67,6 @@ public class EmployeeRepo {
          return null;
      }
     }
-
 
     public List<Employee> getEmployees()
     {

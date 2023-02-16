@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 public class EmployeeService {
 
@@ -30,6 +29,9 @@ public class EmployeeService {
         validate(emp);
 
         Employee cEmp= employeeRepo.createEmployee(employeeConverter.fromDto(emp));
+
+        System.out.println(cEmp);
+
         return employeeConverter.fromDomain(cEmp);
     }
 
@@ -71,7 +73,8 @@ public class EmployeeService {
 
     private static void validate(Employeedto emp) {
         if(emp.getId()<1 || emp.getYearOfExp()<0)
-            throw new SemanticException("Years of exp should be zero or more");
+
+            throw new SemanticException("Years of exp should be zero or more or/and id should be positive");
     }
 
 
